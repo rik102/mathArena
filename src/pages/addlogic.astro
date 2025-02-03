@@ -1,0 +1,44 @@
+---
+import '../styles/styles.css';
+
+// Get query parameters from the URL
+const urlParams = new URLSearchParams(window.location.search);
+const digits = parseInt(urlParams.get('digits') || '1'); // Default to 1 if no value
+const speed = parseFloat(urlParams.get('speed') || '1'); // Default to 1 if no value
+const numNumbers = parseInt(urlParams.get('numNumbers') || '1'); // Default to 1 if no value
+
+// Generate random numbers based on the `digits` and `numNumbers` parameters
+const numbersArray = Array.from({ length: numNumbers }, () => {
+    return Math.floor(Math.random() * Math.pow(10, digits));
+});
+
+// Function to flash numbers on the screen
+let currentIndex = 0;
+let flashInterval: number;
+
+function flashNumber() {
+    const numbersContainer = document.getElementById('numbersContainer');
+    if (!numbersContainer) {
+        console.error("Numbers container not found");
+        return;
+    }
+    
+    if (currentIndex < numbersArray.length) {
+        numbersContainer.innerHTML = numbersArray[currentIndex].toString();
+        currentIndex++;
+    } else {
+        clearInterval(flashInterval);
+    }
+}
+
+---
+
+<div class="form-container">
+    <h1 id="title">Flashing Numbers</h1>
+    <div id="numbersContainer" class="numbers-container"></div>
+</div>
+
+<script>
+    // Start the number flashing process with the provided speed (in milliseconds)
+    flashInterval = setInterval(flashNumber, speed * 1000); // Convert speed to milliseconds
+</script>

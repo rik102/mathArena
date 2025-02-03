@@ -1,103 +1,122 @@
 ---
-import NumberInput from '../components/NumberInput.astro';
-import Button from '../components/Button.astro';
-import '../styles/styles.css';
+import NumberInput from "../components/NumberInput.astro";
+import Button from "../components/Button.astro";
+import "../styles/styles.css";
 ---
 
 <div class="form-container">
-  <h1 id="title">Division</h1>
+    <h1 id="title">Division</h1>
 
-  <div class="input-row">
-    <span class="input-label"># of digits (1st)</span>
-    <number-input>
-      <NumberInput 
-        id="digitsInput1"
-        placeholder="Enter digits only"
-        size="lg"
-        allowDecimals={false}
-        minValue={1}
-        maxValue={6}
-      />
-    </number-input>
-  </div>
+    <div class="input-row">
+        <span class="input-label"># of digits (1st)</span>
+        <NumberInput
+            id="digitsInput1"
+            placeholder="Enter digits only"
+            size="lg"
+            allowDecimals={false}
+            minValue={1}
+            maxValue={6}
+        />
+    </div>
 
-  <div class="input-row">
-    <span class="input-label"># of digits (2nd)</span>
-    <number-input>
-      <NumberInput 
-        id="digitsInput2"
-        placeholder="Enter digits only"
-        size="lg"
-        minValue={1}
-        maxValue={6}
-      />
-    </number-input>
-  </div>
+    <div class="input-row">
+        <span class="input-label"># of digits (2nd)</span>
+        <NumberInput
+            id="digitsInput2"
+            placeholder="Enter digits only"
+            size="lg"
+            minValue={1}
+            maxValue={6}
+        />
+    </div>
 
-  <div class="input-row">
-    <span class="input-label">Speed (S)</span>
-    <number-input>
-      <NumberInput 
-        id="speedInput"
-        placeholder="Enter digits only"
-        size="lg"
-        minValue={0.02}
-        maxValue={3}
-        allowDecimals={true}
-      />
-    </number-input>
-  </div>
+    <div class="input-row">
+        <span class="input-label">Speed (S)</span>
+        <NumberInput
+            id="speedInput"
+            placeholder="Enter digits only"
+            size="lg"
+            minValue={0.02}
+            maxValue={3}
+            allowDecimals={true}
+        />
+    </div>
+
+    <div class="input-row">
+        <span class="input-label"># of numbers to flash</span>
+        <NumberInput
+            id="numbersInput"
+            placeholder="Enter a number"
+            size="lg"
+            minValue={1}
+            maxValue={50}
+        />
+    </div>
 </div>
 
-<Button 
-  id="backButton"
-  size="lg"
-  backgroundColor="#4ea7f5"
-  textColor=white
-  borderColor="transparent"
-  href="/"
+<Button
+    id="backButton"
+    size="lg"
+    backgroundColor="#4ea7f5"
+    textColor="white"
+    borderColor="transparent"
+    href="/"
 >
-  Back
+    Back
 </Button>
 
-<Button 
-  id="nextButton"
-  size="lg"
-  backgroundColor="#4ea7f5"
-  textColor=white
-  borderColor="transparent"
+<Button
+    id="nextButton"
+    size="lg"
+    backgroundColor="#4ea7f5"
+    textColor="white"
+    borderColor="transparent"
 >
-  Next
+    Next
 </Button>
 
 <script>
-  const digitsInput1 = document.querySelector('#digitsInput1') as HTMLInputElement;
-  const digitsInput2 = document.querySelector('#digitsInput2') as HTMLInputElement;
-  const speedInput = document.querySelector('#speedInput') as HTMLInputElement;
-  const nextButton = document.querySelector('#nextButton');
+    const nextButton = document.querySelector("#nextButton");
 
-  nextButton?.addEventListener('click', () => {
-    const digits1 = digitsInput1?.value || '';
-    const digits2 = digitsInput2?.value || '';
-    const speed = speedInput?.value || '';
-
-    if (!digits1 || !digits2 || !speed) {
-      alert('Please fill in all fields');
-      return;
+    if (!nextButton) {
+        alert("Next button is missing.");
+        return;
     }
 
-    console.log({
-      digits1,
-      digits2,
-      speed
+    nextButton.addEventListener("click", () => {
+        // Get the input elements and cast them to HTMLInputElement
+        const digitsInput1Element = document.querySelector(
+            "#digitsInput1",
+        ) as HTMLInputElement;
+        const digitsInput2Element = document.querySelector(
+            "#digitsInput2",
+        ) as HTMLInputElement;
+        const speedInputElement = document.querySelector(
+            "#speedInput",
+        ) as HTMLInputElement;
+        const numbersInputElement = document.querySelector(
+            "#numbersInput",
+        ) as HTMLInputElement;
+
+        // Ensure the elements are not null
+        if (!digitsInput1Element || !digitsInput2Element || !speedInputElement || !numbersInputElement) {
+            alert("One or more input fields are missing.");
+            return;
+        }
+
+        // Get the input values
+        const digitsInput1 = digitsInput1Element.value;
+        const digitsInput2 = digitsInput2Element.value;
+        const speed = speedInputElement.value;
+        const numberInput = numbersInputElement.value;
+
+        // Validate the inputs
+        if (!digitsInput1 || !digitsInput2 || !speed || !numberInput) {
+            alert("Please fill in all fields.");
+            return;
+        }
+
+        // Redirect to divlogic page with query parameters
+        window.location.href = `/divlogic?digits1=${digitsInput1}&digits2=${digitsInput2}&speed=${speed}&numNumbers=${numberInput}`;
     });
-
-    const gameConfig = {
-      digits1: Number(digits1),
-      digits2: Number(digits2),
-      speed: Number(speed)
-    };
-
-    console.log('Starting game with config:', gameConfig);
-  });
 </script>

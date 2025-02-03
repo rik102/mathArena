@@ -67,3 +67,10 @@ body {
   bottom: 20px;
   right: 20px;
 }
+
+#numbersContainer {
+    font-size: 3rem;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
+}
